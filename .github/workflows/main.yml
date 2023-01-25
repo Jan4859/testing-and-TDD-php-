@@ -17,4 +17,4 @@ jobs:
       run:  ./composer.phar install --ignore-platform-reqs
 
     - name: Run tests
-      run: vendor/bin/phpunit
+      run: ./vendor/bin/phpunit tests
