@@ -12,7 +12,7 @@ class CartTest extends TestCase
     {
         $cart = Cart::pickUp();
         
-        $this->assertNotEmpty($cart->id());
-        $this->assertEquals(0, $cart->totalProducts());
+        $this->assertNotEmpty($cart->id()); //Check if the parameter id(recently created) is not empty
+        $this->assertEquals(0, $cart->totalProducts());//Check if the await valued is equal to the  second action.
     }
 }
