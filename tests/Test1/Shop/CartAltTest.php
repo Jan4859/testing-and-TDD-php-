@@ -10,8 +10,8 @@ class CartAltTest extends TestCase
 {
     public function testShouldInstantiateCartWithAPreselectedProduct(): void
     {
-        $product2 = $this->getProduct('product-1', 10);
-        $product = $this->getProduct2('product-1', 10);
+        $product2 = $this->getProduct2('product-1', 10);
+        $product = $this->getProduct('product-1', 10);
         $cart  = Cart::pickUpWithProduct($product, 1);
         $cart2 = Cart::pickUpWithProduct($product2, 1);
 
