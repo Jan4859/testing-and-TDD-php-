@@ -118,7 +118,25 @@ class Cart implements IteratorAggregate, Countable
 
     private function addCartLine(Cartline $cartLine): void
     {
+        /*
         $product = $cartLine->product();
         $this->lines[$product->id()] = $cartLine;
+        old addCartLine test testShouldAddSameProductsInDifferentMoments doesn't work, we have to check if there are already products in the cart
+        */
+
+        $product = $cartLine->product();
+    
+        if (! isset($this->lines[$product->id()])) {
+            $this->lines[$product->id()] = $cartLine;
+    
+            return;
+        }
+        
+        $newCartLine = new CartLine(
+            $product,
+            $cartLine->quantity() + $this->lines[$product->id()]->quantity()
+        );
+    
+        $this->lines[$product->id()] = $newCartLine;
     }
 }

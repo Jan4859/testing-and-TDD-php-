@@ -7,6 +7,7 @@ namespace Test1\Shop;
 
 use PHPUnit\Framework\TestCase;
 
+//any difficulty in testing could be a clue to a design problem.
 class CartAltTest extends TestCase
 {
     public function testShouldInstantiateCartWithAPreselectedProduct(): void
@@ -43,6 +44,37 @@ class CartAltTest extends TestCase
         $this->assertCount(1, $cart);
         $this->assertEquals(10, $cart->totalProducts());
     }
+
+    public function testShouldAddSeveralProductsInQuantity(): void
+    {
+        //Same test as above, but this time 2 products
+        $product1 = $this->getProduct('product-1', 10);
+        $product2 = $this->getProduct('product-2', 15);
+
+        $cart = Cart::pickUp();
+
+        $cart->addProductInQuantity($product1, 5);
+        $cart->addProductInQuantity($product2, 7);
+
+        $this->assertCount(2, $cart);
+        $this->assertEquals(12, $cart->totalProducts());
+    }
+
+    public function testShouldAddSameProductsInDifferentMoments(): void
+    {
+        $product1 = $this->getProduct('product-1', 10);
+        $product2 = $this->getProduct('product-2', 15);
+
+        $cart = Cart::pickUp();
+
+        $cart->addProductInQuantity($product1, 5);
+        $cart->addProductInQuantity($product2, 7);
+        $cart->addProductInQuantity($product2, 3);
+
+        $this->assertCount(2, $cart);
+        $this->assertEquals(15, $cart->totalProducts());
+    }
+
 
     private function getProduct($id, $price): ProductInterface
     {
