@@ -133,8 +133,12 @@ class CartAltTest extends TestCase
 
         $product = $this->getProduct('product-1', 10);
 
-        $this->expectException(UnderflowException::class);
+        $this->expectException(\UnderflowException::class);
         $cart->removeProduct($product);
+
+        /**
+         * In the context of namespaces, it's used to specify the fully-qualified name of a class, including its namespace. For example, if you have a class named Foo in the namespace Bar, you would refer to it as \Bar\Foo. This allows you to distinguish between two classes with the same name that are in different namespaces.
+         */
     }
 
     private function getProduct($id, $price): ProductInterface
