@@ -163,7 +163,7 @@ class CartAltTest extends TestCase
         $cart->addProductInQuantity($product, 2);
         $cart->removeProduct($product);
 
-        $this->assertEquals(1, $cart->totalProducts());
+        $this->assertEquals(1, $cart->count());
     }
 
     public function testShouldLeaveTwoProduct(): void
@@ -171,12 +171,13 @@ class CartAltTest extends TestCase
         $cart = Cart::pickUp();
 
         $product  = $this->getProduct('product-1', 10);
-        $product2 = $this->getProduct('product-1', 10);
+        $product2 = $this->getProduct('product-2', 10);
 
         $cart->addProductInQuantity($product, 3);
+        $cart->addProductInQuantity($product2, 3);
         $cart->removeProduct($product);
 
-        $this->assertEquals(2, $cart->totalProducts());
+        $this->assertEquals(2, $cart->count());
     }
 
     public function testShouldEmptyTheCart(): void
