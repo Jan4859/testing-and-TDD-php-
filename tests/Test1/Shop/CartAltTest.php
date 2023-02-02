@@ -163,7 +163,20 @@ class CartAltTest extends TestCase
         $cart->addProductInQuantity($product, 2);
         $cart->removeProduct($product);
 
-        $this->assertEquals(1, $cart->count());
+        $this->assertEquals(1, $cart->totalProducts());
+    }
+
+    public function testShouldLeaveTwoProduct(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product  = $this->getProduct('product-1', 10);
+        $product2 = $this->getProduct('product-1', 10);
+
+        $cart->addProductInQuantity($product, 3);
+        $cart->removeProduct($product);
+
+        $this->assertEquals(2, $cart->totalProducts());
     }
 
     public function testShouldEmptyTheCart(): void
