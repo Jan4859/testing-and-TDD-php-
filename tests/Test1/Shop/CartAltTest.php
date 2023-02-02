@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test1\Shop;
 
 use PHPUnit\Framework\TestCase;
-
+//use UnderflowException;
 //any difficulty in testing could be a clue to a design problem.
 /**
  * In this test we check our cart, as we can see all the tests have an accurate description. 
@@ -138,6 +138,7 @@ class CartAltTest extends TestCase
 
         /**
          * In the context of namespaces, it's used to specify the fully-qualified name of a class, including its namespace. For example, if you have a class named Foo in the namespace Bar, you would refer to it as \Bar\Foo. This allows you to distinguish between two classes with the same name that are in different namespaces.
+         * so we can use UnderflowException without add "use use UnderflowException;".
          */
     }
 
