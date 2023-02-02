@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Test1\Shop;
@@ -40,7 +41,7 @@ class Cart implements IteratorAggregate, Countable
 
         return $cart;
     }
-    
+
     public function drop()
     {
         $this->lines = [];
@@ -60,15 +61,31 @@ class Cart implements IteratorAggregate, Countable
 
     public function removeProduct(ProductInterface $product): void
     {
+        /* if (!isset($this->lines[$product->id()])) {
+            throw new UnderflowException(
+                sprintf('Product %s not in this cart', $product->id())
+            );
+        }
+
+        unset($this->lines[$product->id()]);*/
+        //New removeProduct
+
         if (!isset($this->lines[$product->id()])) {
             throw new UnderflowException(
                 sprintf('Product %s not in this cart', $product->id())
             );
         }
 
-        unset($this->lines[$product->id()]);
+        $line = $this->lines[$product->id()];
+
+        $newQuantity = $line->quantity() - 1;
+        if ($newQuantity === 0) {
+            unset($this->lines[$product->id()]);
+        } else {
+            $this->lines[$product->id()] = new CartLine($product, $newQuantity);
+        }
     }
-    
+
     public function amount(): float
     {
         return array_reduce(
@@ -125,18 +142,18 @@ class Cart implements IteratorAggregate, Countable
         */
 
         $product = $cartLine->product();
-    
-        if (! isset($this->lines[$product->id()])) {
+
+        if (!isset($this->lines[$product->id()])) {
             $this->lines[$product->id()] = $cartLine;
-    
+
             return;
         }
-        
+
         $newCartLine = new CartLine(
             $product,
             $cartLine->quantity() + $this->lines[$product->id()]->quantity()
         );
-    
+
         $this->lines[$product->id()] = $newCartLine;
     }
 }

@@ -142,6 +142,59 @@ class CartAltTest extends TestCase
          */
     }
 
+    public function testShouldLeaveNoProductWhenRemovingTheLastOne(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-1', 10);
+
+        $cart->addProductInQuantity($product, 1);
+        $cart->removeProduct($product);
+
+        $this->assertEquals(0, $cart->count());
+    }
+
+    public function testShouldLeaveOneProduct(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-1', 10);
+
+        $cart->addProductInQuantity($product, 2);
+        $cart->removeProduct($product);
+
+        $this->assertEquals(1, $cart->count());
+    }
+
+    public function testShouldEmptyTheCart(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-1', 10);
+        $cart->addProductInQuantity($product, 2);
+
+        $cart->drop();
+
+        $this->assertEmpty($cart);
+    }
+
+    public function testShouldReportIsEmpty(): void
+    {
+        $cart = Cart::pickUp();
+
+        $this->assertTrue($cart->isEmpty());
+    }
+
+    public function testShouldReportIsNotEmpty(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-1', 10);
+        $cart->addProductInQuantity($product, 2);
+
+        $this->assertFalse($cart->isEmpty());
+    }
+
     private function getProduct($id, $price): ProductInterface
     {
         return new Product($id, $price);
