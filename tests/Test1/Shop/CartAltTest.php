@@ -8,6 +8,15 @@ namespace Test1\Shop;
 use PHPUnit\Framework\TestCase;
 
 //any difficulty in testing could be a clue to a design problem.
+/**
+ * In this test we check our cart, as we can see all the tests have an accurate description. 
+ * 1. When A user click on a product, a cart has to be created and then the product added. 
+ * 2. Now we have an empty cart and we try to add a product.
+ * 3. The same but we try to add a different quantity.
+ * 4. We test with more than one product.
+ * 5. We add products in different moments so we can check they add each other and don't override. 
+ * 6. 
+ */
 class CartAltTest extends TestCase
 {
     public function testShouldInstantiateCartWithAPreselectedProduct(): void
@@ -26,7 +35,8 @@ class CartAltTest extends TestCase
     public function testShouldAddAProduct(): void
     {
         $product = $this->getProduct('product-1', 10); //We make a product.
-        $cart = Cart::pickUp(); //Pick up empty cart.
+        $cart  = Cart::pickUp(); //Pick up empty cart.
+        $cart2 = Cart::pickUp(); //Pick up empty cart.
 
         $cart->addProductInQuantity($product, 1); //We add 1 product to our cart.
 
@@ -75,6 +85,57 @@ class CartAltTest extends TestCase
         $this->assertEquals(15, $cart->totalProducts());
     }
 
+
+    public function testEmptyCartShouldHaveZeroAmount(): void
+    {
+        $cart = Cart::pickUp();
+
+        $this->assertEquals(0, $cart->amount());
+    }
+
+    public function testShouldCalculateAmountWhenAddingProduct(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-01', 10);
+        $cart->addProductInQuantity($product, 1);
+
+        $this->assertEquals(10, $cart->amount());
+    }
+
+    public function testShouldTakeCareOfQuantitiesToCalculateAmount(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-01', 10);
+        $cart->addProductInQuantity($product, 3);
+
+        $this->assertEquals(30, $cart->amount());
+    }
+
+    public function testShouldTakeCareOfQuantitiesAndDifferentProductsToCalculateAmount(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product1 = $this->getProduct('product-01', 10);
+        $product2 = $this->getProduct('product-02', 7);
+
+        $cart->addProductInQuantity($product1, 3);
+        $cart->addProductInQuantity($product2, 4);
+
+        $this->assertEquals(58, $cart->amount());
+    }
+
+
+    public function testShouldFailRemovingNonExistingProduct(): void
+    {
+        $cart = Cart::pickUp();
+
+        $product = $this->getProduct('product-1', 10);
+
+        $this->expectException(UnderflowException::class);
+        $cart->removeProduct($product);
+    }
 
     private function getProduct($id, $price): ProductInterface
     {
