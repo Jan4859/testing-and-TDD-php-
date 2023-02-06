@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class DniTest extends TestCase
 {
-    
+
     public function testShouldFailWhenDniLongerThanMaxLenght()
     {
         $this->expectException(LengthException::class);
@@ -29,5 +29,12 @@ class DniTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Ends with number');
         $dni = new Dni('012345678');
+    }
+
+    public function testShouldFailWhenDniEndsWithAnInvalidLetter(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Ends with invalid letter');
+        $dni = new Dni('01234567I');
     }
 }
