@@ -20,9 +20,7 @@ class Dni
     private function checkDniHasValidLength(string $dni): void
     {
         if (\strlen($dni) !== self::VALID_LENGTH) {
-            throw new LengthException(
-                \strlen($dni) > 9 ? 'Too long' : 'Too short'
-            );
+            throw new LengthException('Tpp long or too short');
         }
     }
 }

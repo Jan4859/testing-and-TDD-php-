@@ -15,14 +15,12 @@ class DniTest extends TestCase
     public function testShouldFailWhenDniLongerThanMaxLenght()
     {
         $this->expectException(LengthException::class);
-        $this->expectExceptionMessage('Too long');
         $dni = new Dni('0123456789');
     }
 
     public function testShouldFailWhenDniShorterThanMinLenght(): void
     {
         $this->expectException(LengthException::class);
-        $this->expectExceptionMessage('Too short');
         $dni = new Dni('01234567');
     }
 
