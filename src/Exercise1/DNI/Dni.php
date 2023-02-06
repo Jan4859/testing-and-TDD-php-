@@ -8,10 +8,12 @@ use DomainException;
 use LengthException;
 class Dni
 {
+    private const VALID_LENGTH = 9;
+
     public function __construct(string $dni)
     {
-        if(strlen($dni) > 9) throw new LengthException('Too long');
-        if(strlen($dni) < 9) throw new LengthException('Too short');
+        if(strlen($dni) > self::VALID_LENGTH) throw new LengthException('Too long');
+        if(strlen($dni) < self::VALID_LENGTH) throw new LengthException('Too short');
         throw new DomainException('Ends with number');
     }
 }

@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class DniTest extends TestCase
 {
+    
     public function testShouldFailWhenDniLongerThanMaxLenght()
     {
         $this->expectException(LengthException::class);
