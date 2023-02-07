@@ -14,10 +14,14 @@ class Dni
     public function __construct(string $dni)
     {
         $this->checkDniHasValidLength($dni);
-        if (preg_match('/\d$/', $dni)) {
-            throw new \DomainException('Ends with number');
+        if (preg_match('/[UIOÑ\d]$/u', $dni)) {
+            throw new \DomainException('Ends with invalid letter');
         }
-        throw new \DomainException('Ends with invalid letter');
+        if (!preg_match('/^[XYZ\d]\d{7,7}.$/', $dni)) {
+            throw new \DomainException('Starts with invalid letter');
+        }
+        throw new \InvalidArgumentException('Invalid dni');
+
     }
 
     private function checkDniHasValidLength(string $dni): void
