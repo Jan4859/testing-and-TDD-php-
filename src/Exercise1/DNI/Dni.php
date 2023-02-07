@@ -17,10 +17,20 @@ class Dni
     {
         $this->checkDniHasValidLength($dni);
 
-        if ('00000000T' !== $dni) {
+        $number = (int)substr($dni, 0, -1);
+        $letter = substr($dni, -1);
+
+        $mod = $number % 23;
+
+        $map = [
+            0 => 'T',
+            1 => 'R',
+            2 => 'W'
+        ];
+
+        if ($letter !== $map[$mod]) {
             throw new InvalidArgumentException('Invalid dni');
         }
-
         $this->dni = $dni;
     }
 
