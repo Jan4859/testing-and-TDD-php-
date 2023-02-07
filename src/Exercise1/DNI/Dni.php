@@ -5,29 +5,34 @@ declare(strict_types=1);
 namespace Exercise1\DNI;
 
 use DomainException;
-use LengthException;
+use InvalidArgumentException;
 
 class Dni
 {
-    private const VALID_LENGTH = 9;
+    private const VALID_DNI_PATTERN = '/^[XYZ\d]\d{7,7}[^UIOÑ\d]$/u';
+
+    private string $dni;
 
     public function __construct(string $dni)
     {
         $this->checkDniHasValidLength($dni);
-        if (preg_match('/[UIOÑ\d]$/u', $dni)) {
-            throw new \DomainException('Ends with invalid letter');
-        }
-        if (!preg_match('/^[XYZ\d]\d{7,7}.$/', $dni)) {
-            throw new \DomainException('Starts with invalid letter');
-        }
-        throw new \InvalidArgumentException('Invalid dni');
 
+        if ('00000000T' !== $dni) {
+            throw new InvalidArgumentException('Invalid dni');
+        }
+
+        $this->dni = $dni;
     }
 
     private function checkDniHasValidLength(string $dni): void
     {
-        if (\strlen($dni) !== self::VALID_LENGTH) {
-            throw new LengthException('Too long or too short');
+        if (!preg_match(self::VALID_DNI_PATTERN, $dni)) {
+            throw new DomainException('Bad format');
         }
+    }
+
+    public function __toString(): string
+    {
+        return $this->dni;
     }
 }

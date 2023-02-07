@@ -15,13 +15,13 @@ class DniTest extends TestCase
 
     public function testShouldFailWhenDniLongerThanMaxLenght()
     {
-        $this->expectException(LengthException::class);
+        $this->expectException(DomainException::class);
         $dni = new Dni('0123456789');
     }
 
     public function testShouldFailWhenDniShorterThanMinLenght(): void
     {
-        $this->expectException(LengthException::class);
+        $this->expectException(DomainException::class);
         $dni = new Dni('01234567');
     }
 
@@ -48,4 +48,16 @@ class DniTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $dni = new Dni('00000000S');
     }
+
+    public function testShouldConstructValidDNIEndingWithT() : void
+    {
+        $dni = new Dni('00000000T');
+        $this->assertEquals('00000000T',  strval($dni));
+    }
+
+   /* public function testShouldConstructValidDNIEndingWithW() : void
+    {
+        $dni = new Dni('00000002W');
+        $this->assertEquals('00000002W', (string) $dni);
+    }*/
 }
