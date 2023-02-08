@@ -1,13 +1,20 @@
 <?php
-    declare(strict_types=1);
 
-    namespace Test2\Luhn;
+declare(strict_types=1);
 
-    class LuhnValidator
+namespace Test2\Luhn;
+
+class LuhnValidator
+{
+
+    public function isValid(string $luhnCode): bool
     {
-
-        public function isValid(string $luhnCode): bool
-        {
-            return true;
+        $inverted = strrev($luhnCode);
+        if ($inverted[0] !== '0') {
+            return false;
         }
+
+
+        return true;
     }
+}
