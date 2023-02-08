@@ -49,15 +49,21 @@ class DniTest extends TestCase
         $dni = new Dni('00000000S');
     }
 
-    public function testShouldConstructValidDNIEndingWithT() : void
+    public function testShouldConstructValidDNIEndingWithT(): void
     {
         $dni = new Dni('00000000T');
         $this->assertEquals('00000000T',  strval($dni));
     }
 
-   /* public function testShouldConstructValidDNIEndingWithW() : void
+    public function testShouldConstructValidDNIEndingWithW(): void
     {
         $dni = new Dni('00000002W');
-        $this->assertEquals('00000002W', (string) $dni);
-    }*/
+        $this->assertEquals('00000002W', strval($dni));
+    }
+
+    public function testShouldConstructValidNIEStartingWithY(): void
+    {
+        $dni = new Dni('Y0000000Z');
+        $this->assertEquals('Y0000000Z', (string) $dni);
+    }
 }
