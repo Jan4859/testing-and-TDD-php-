@@ -10,6 +10,7 @@ use InvalidArgumentException;
 class Dni
 {
     private const VALID_DNI_PATTERN = '/^[XYZ\d]\d{7,7}[^UIOÑ\d]$/u';
+    private const CONTROL_LETTER_MAP = 'TRWAGMYFPDXBNJZSQVHLCKE';
 
     private string $dni;
 
@@ -22,13 +23,8 @@ class Dni
 
         $mod = $number % 23;
 
-        $map = [
-            0 => 'T',
-            1 => 'R',
-            2 => 'W'
-        ];
 
-        if ($letter !== $map[$mod]) {
+        if ($letter !== self::CONTROL_LETTER_MAP[$mod]) {
             throw new InvalidArgumentException('Invalid dni');
         }
         $this->dni = $dni;
