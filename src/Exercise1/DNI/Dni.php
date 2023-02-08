@@ -19,6 +19,7 @@ class Dni
 
     public function __construct(string $dni)
     {
+        $dni = strtoupper($dni);
         $this->checkDniHasValidLength($dni);
 
         $number = (int)substr($dni, 0, -1);
