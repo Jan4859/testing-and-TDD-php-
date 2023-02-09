@@ -26,4 +26,10 @@ class LuhnValidatorTest extends TestCase
         $validator = new LuhnValidator();
         $this->assertFalse($validator->isValid('00000000100'));
     }
+
+    public function testShouldValidateWithTwoNoZerosAddingTen(): void
+    {
+        $validator = new LuhnValidator();
+        $this->assertTrue($validator->isValid('00000000406'));
+    }
 }

@@ -11,6 +11,8 @@ class LuhnValidator
     {
         $inverted = strrev($luhnCode);
 
-        return !($inverted[0] !== '0' || $inverted[2] !== '0');
+        $oddAdded = $inverted[0] + $inverted[2];
+
+        return $oddAdded % 10 === 0;
     }
 }
