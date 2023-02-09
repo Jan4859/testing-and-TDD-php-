@@ -11,8 +11,18 @@ class LuhnValidator
     {
         $inverted = strrev($luhnCode);
 
-        $oddAdded = $inverted[0] + $inverted[2]+$inverted[4];
+        $oddAdded = $this->addOddDigits($inverted);
 
         return $oddAdded % 10 === 0;
+    }
+
+    private function addOddDigits(string $inverted): int
+    {
+        return $inverted[0]
+            + $inverted[2]
+            + $inverted[4]
+            + $inverted[6]
+            + $inverted[8]
+            + $inverted[10];
     }
 }
