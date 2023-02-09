@@ -32,4 +32,10 @@ class LuhnValidatorTest extends TestCase
         $validator = new LuhnValidator();
         $this->assertTrue($validator->isValid('00000000406'));
     }
+
+    public function testShouldConsiderFifthPosition(): void
+    {
+        $validator = new LuhnValidator();
+        $this->assertFalse($validator->isValid('00000010000'));
+    }
 }
