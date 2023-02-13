@@ -12,17 +12,37 @@ class LuhnValidator
         $inverted = strrev($luhnCode);
 
         $oddAdded = $this->addOddDigits($inverted);
+        $evenAdded = $this->addEvenDigits($inverted);
 
-        return $oddAdded % 10 === 0;
+        return ($oddAdded + $evenAdded) % 10 === 0;
     }
 
     private function addOddDigits(string $inverted): int
     {
-        return $inverted[0]
-            + $inverted[2]
-            + $inverted[4]
-            + $inverted[6]
-            + $inverted[8]
-            + $inverted[10];
+        $oddAdded = 0;
+        for ($position = 0; $position < 11; $position += 2) {
+            $oddAdded += $inverted[$position];
+        }
+        return $oddAdded;
     }
+
+    private function addEvenDigits(string $inverted)
+    {
+        $evenAdded = 0;
+        for ($position = 1; $position < 11; $position += 2) {
+            $double = (int) $inverted[ $position ] * 2;
+            $evenAdded += $this->reduceToOneDigit($double);
+        }
+
+        return $evenAdded;
+    }
+
+    private function reduceToOneDigit($double) : int
+         {
+             if ($double >= 10) {
+                 $double = intdiv($double, 10) + $double % 10;
+             }
+     
+             return $double;
+         }
 }
